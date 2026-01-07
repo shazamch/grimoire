@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/* 1. Global defaults (The "Grimoire" Standard) */
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  
+  /* Your Defaults */
+  --primary: #18333E;    /* Deep Blue */
+  --secondary: #1987C6;  /* Bright Blue */
+  --background: #FFFFFF; /* White */
+}
+
+/* 2. Map Tailwind to these variables */
+@theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-background: var(--background);
+}
+
+/* 3. Dynamic Autofill Fix */
+/* Uses var(--background) so it matches user's theme automatically */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px var(--background) inset !important;
+  box-shadow: 0 0 0px 1000px var(--background) inset !important;
+  -webkit-text-fill-color: var(--primary) !important;
+  caret-color: var(--primary);
+  transition: background-color 5000s ease-in-out 0s;
+}

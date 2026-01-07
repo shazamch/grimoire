@@ -1,0 +1,46 @@
+{
+  "name": "@shazam-codes/grimoire",
+  "private": false,
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/grimoire.umd.cjs",
+  "module": "./dist/grimoire.js",
+  "exports": {
+    ".": {
+      "import": "./dist/grimoire.js",
+      "require": "./dist/grimoire.umd.cjs"
+    },
+    "./style.css": "./dist/grimoire.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.562.0",
+    "tailwind-merge": "^3.4.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "tailwindcss": "^4.1.18",
+    "vite": "^7.2.4"
+  }
+}
