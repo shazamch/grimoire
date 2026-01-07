@@ -1,6 +1,7 @@
 import { AlertTriangle, Info, X } from "lucide-react";
 import Button from "./Button";
 import { useEffect } from "react";
+import { cn } from "../utils/cn";
 
 const ConfirmDialog = ({
   isOpen,
@@ -12,6 +13,8 @@ const ConfirmDialog = ({
   cancelText = "Cancel",
   variant = "danger",
   isLoading = false,
+  className,
+  ...props
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -29,7 +32,13 @@ const ConfirmDialog = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-opacity">
       {/* Modal Container */}
-      <div className="relative w-full max-w-md bg-background rounded-lg shadow-xl border border-gray-200 animate-in fade-in zoom-in-95 duration-200">
+      <div 
+        className={cn(
+          "relative w-full max-w-md bg-background rounded-lg shadow-xl border border-gray-200 animate-in fade-in zoom-in-95 duration-200",
+          className
+        )}
+        {...props}
+      >
         
         {/* Close Icon (Top Right) */}
         <button
@@ -43,9 +52,10 @@ const ConfirmDialog = ({
         <div className="p-6 text-center">
           {/* Header Area */}
           <div
-            className={`mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full ${
+            className={cn(
+              "mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full",
               isDanger ? "bg-red-100 text-red-600" : "bg-primary/10 text-primary"
-            }`}
+            )}
           >
             {isDanger ? <AlertTriangle size={24} /> : <Info size={24} />}
           </div>
@@ -70,11 +80,9 @@ const ConfirmDialog = ({
               text={isLoading ? "Processing..." : confirmText}
               onClick={onConfirm}
               disabled={isLoading}
-              className={
-                isDanger
-                  ? "bg-red-600 hover:bg-red-700 border-red-600 text-white"
-                  : ""
-              }
+              className={cn(
+                isDanger && "bg-red-600 hover:bg-red-700 border-red-600 text-white"
+              )}
             />
           </div>
         </div>

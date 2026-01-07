@@ -1,3 +1,5 @@
+import { cn } from "../utils/cn";
+
 const Badge = ({ 
   text, 
   variant = "neutral", 
@@ -14,11 +16,11 @@ const Badge = ({
 
   return (
     <span
-      className={`
-        inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border
-        ${variants[variant] || variants.neutral}
-        ${className}
-      `}
+      className={cn(
+        "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border",
+        variants[variant] || variants.neutral,
+        className
+      )}
     >
       {Icon && <Icon size={12} strokeWidth={3} />}
       {text}

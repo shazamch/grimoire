@@ -357,7 +357,7 @@ function App() {
                         <div className="flex flex-wrap gap-3">
                             <Button text="Confirm Dialog" icon={<CheckCircle size={18}/>} onClick={() => setIsSaveDialogOpen(true)} />
                             
-                            <Button variant="outline" text="Destructive Dialog" icon={<Trash2 size={18}/>} className="border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300" onClick={() => setIsDeleteDialogOpen(true)} />
+                            <Button variant="outline" text="Destructive Dialog" icon={<Trash2 size={18}/>} className="border-red-200 text-red-600 hover:bg-red-800 hover:border-red-300" onClick={() => setIsDeleteDialogOpen(true)} />
                             
                             <Button variant="secondary" text="Trigger Toast" icon={<Bell size={18}/>} onClick={handleInfoToast} />
                             

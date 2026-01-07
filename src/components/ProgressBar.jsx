@@ -1,12 +1,13 @@
+import { cn } from "../utils/cn";
+
 const ProgressBar = ({
-  progress = 0, // 0 to 100
+  progress = 0,
   label,
   showPercentage = false,
-  variant = "primary", // primary, success, warning, danger
-  size = "md", // sm, md, lg
+  variant = "primary",
+  size = "md",
   className = "",
 }) => {
-  // Clamp progress between 0 and 100
   const validProgress = Math.min(100, Math.max(0, progress));
 
   const variants = {
@@ -23,8 +24,7 @@ const ProgressBar = ({
   };
 
   return (
-    <div className={`w-full ${className}`}>
-      {/* Header Label */}
+    <div className={cn("w-full", className)}>
       {(label || showPercentage) && (
         <div className="flex justify-between mb-1">
           {label && <span className="text-sm font-medium text-gray-700">{label}</span>}
@@ -32,11 +32,12 @@ const ProgressBar = ({
         </div>
       )}
 
-      {/* Bar Container */}
-      <div className={`w-full bg-gray-200 rounded-full overflow-hidden ${sizes[size]}`}>
-        {/* Fill */}
+      <div className={cn("w-full bg-gray-200 rounded-full overflow-hidden", sizes[size])}>
         <div
-          className={`h-full rounded-full transition-all duration-500 ease-out ${variants[variant] || variants.primary}`}
+          className={cn(
+            "h-full rounded-full transition-all duration-500 ease-out",
+            variants[variant] || variants.primary
+          )}
           style={{ width: `${validProgress}%` }}
         />
       </div>

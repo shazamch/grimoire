@@ -1,9 +1,9 @@
 import { createContext, useContext, useState, useCallback, useEffect, useMemo } from "react";
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from "lucide-react";
+import { cn } from "../utils/cn";
 
 const ToastContext = createContext();
 
-// 1. Defaults
 const DEFAULT_POSITION = "top-left";
 const DEFAULT_DURATION = 3500;
 
@@ -16,15 +16,13 @@ export const useToast = () => {
 export const ToastProvider = ({ 
   children, 
   defaultPosition = DEFAULT_POSITION, 
-  defaultDuration = DEFAULT_DURATION 
+  defaultDuration = DEFAULT_DURATION,
+  className = ""
 }) => {
   const [toasts, setToasts] = useState([]);
 
-  // 2. The Add Function
   const addToast = useCallback((message, type = "info", options = {}) => {
     const id = Date.now();
-    
-    // MERGE CONFIG: Toast Options > Provider Props > Hardcoded Defaults
     const duration = options.duration || defaultDuration;
     const position = options.position || defaultPosition;
 
@@ -32,7 +30,6 @@ export const ToastProvider = ({
     
     setToasts((prev) => [...prev, newToast]);
 
-    // Set auto-dismiss timer based on the resolved duration
     if (duration > 0) {
       setTimeout(() => {
         removeToast(id);
@@ -44,7 +41,6 @@ export const ToastProvider = ({
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  // 3. Group toasts by position so they render in the correct container
   const toastsByPosition = useMemo(() => {
     return {
       "top-left": toasts.filter((t) => t.position === "top-left"),
@@ -58,30 +54,26 @@ export const ToastProvider = ({
     <ToastContext.Provider value={{ addToast, removeToast }}>
       {children}
 
-      {/* Render Containers for all 4 corners */}
-      <ToastContainer position="top-left" toasts={toastsByPosition["top-left"]} removeToast={removeToast} />
-      <ToastContainer position="top-right" toasts={toastsByPosition["top-right"]} removeToast={removeToast} />
-      <ToastContainer position="bottom-left" toasts={toastsByPosition["bottom-left"]} removeToast={removeToast} />
-      <ToastContainer position="bottom-right" toasts={toastsByPosition["bottom-right"]} removeToast={removeToast} />
+      <ToastContainer position="top-left" toasts={toastsByPosition["top-left"]} removeToast={removeToast} className={className} />
+      <ToastContainer position="top-right" toasts={toastsByPosition["top-right"]} removeToast={removeToast} className={className} />
+      <ToastContainer position="bottom-left" toasts={toastsByPosition["bottom-left"]} removeToast={removeToast} className={className} />
+      <ToastContainer position="bottom-right" toasts={toastsByPosition["bottom-right"]} removeToast={removeToast} className={className} />
     </ToastContext.Provider>
   );
 };
 
-// --- Sub-Components ---
-
-// 4. Container: Handles positioning on screen
-const ToastContainer = ({ position, toasts, removeToast }) => {
+const ToastContainer = ({ position, toasts, removeToast, className }) => {
   if (toasts.length === 0) return null;
 
   const positionClasses = {
     "top-left": "top-4 left-4 flex-col",
     "top-right": "top-4 right-4 flex-col",
-    "bottom-left": "bottom-4 left-4 flex-col-reverse", // Newest at bottom
-    "bottom-right": "bottom-4 right-4 flex-col-reverse", // Newest at bottom
+    "bottom-left": "bottom-4 left-4 flex-col-reverse",
+    "bottom-right": "bottom-4 right-4 flex-col-reverse",
   };
 
   return (
-    <div className={`fixed z-1000 flex gap-3 ${positionClasses[position]}`}>
+    <div className={cn("fixed z-1000 flex gap-3", positionClasses[position], className)}>
       {toasts.map((toast) => (
         <ToastItem key={toast.id} {...toast} onClose={() => removeToast(toast.id)} />
       ))}
@@ -89,7 +81,6 @@ const ToastContainer = ({ position, toasts, removeToast }) => {
   );
 };
 
-// 5. Item: Handles Animation & Styling
 const ToastItem = ({ message, type, position, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -112,18 +103,16 @@ const ToastItem = ({ message, type, position, onClose }) => {
     warning: <AlertTriangle size={20} className="text-yellow-600 shrink-0" />,
   };
 
-  // Determine Slide Direction based on Position
   const isLeft = position.includes("left");
   const translateHidden = isLeft ? "-translate-x-full" : "translate-x-full";
 
   return (
     <div
-      className={`
-        flex items-start gap-3 px-4 py-3 rounded-lg border shadow-lg max-w-sm
-        transition-all duration-300 ease-out transform
-        ${isVisible ? "translate-x-0 opacity-100" : `${translateHidden} opacity-0`}
-        ${styles[type] || styles.info}
-      `}
+      className={cn(
+        "flex items-start gap-3 px-4 py-3 rounded-lg border shadow-lg max-w-sm transition-all duration-300 ease-out transform",
+        isVisible ? "translate-x-0 opacity-100" : `${translateHidden} opacity-0`,
+        styles[type] || styles.info
+      )}
     >
       <div className="mt-0.5">{icons[type]}</div>
       <p className="text-sm font-medium flex-1 leading-tight mt-0.5">{message}</p>

@@ -1,4 +1,5 @@
 import { Loader2 } from "lucide-react";
+import { cn } from "../utils/cn";
 
 const Spinner = ({ size = "md", className = "", variant = "primary" }) => {
   const sizes = {
@@ -14,9 +15,8 @@ const Spinner = ({ size = "md", className = "", variant = "primary" }) => {
     neutral: "text-gray-400",
   };
 
-  // Adjust stroke width based on size for better optical stability
   const strokeWidths = {
-    sm: 2.5, // Slightly thicker for small icons prevents pixel-snap wobble
+    sm: 2.5,
     md: 2,
     lg: 2,
     xl: 2,
@@ -25,12 +25,12 @@ const Spinner = ({ size = "md", className = "", variant = "primary" }) => {
   return (
     <Loader2
       strokeWidth={strokeWidths[size]}
-      className={`
-        animate-spin shrink-0 
-        ${sizes[size]} 
-        ${variants[variant]} 
-        ${className}
-      `}
+      className={cn(
+        "animate-spin shrink-0",
+        sizes[size],
+        variants[variant],
+        className
+      )}
     />
   );
 };

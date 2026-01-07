@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { UploadCloud, X, FileText, AlertCircle } from "lucide-react";
+import { cn } from "../utils/cn";
 
 const FileUpload = ({
   label,
@@ -9,6 +10,7 @@ const FileUpload = ({
   maxSizeMB = 5, // Default 5MB
   error,
   disabled = false,
+  className = "",
   ...props
 }) => {
   const [dragActive, setDragActive] = useState(false);
@@ -19,7 +21,7 @@ const FileUpload = ({
   const activeError = error?.message || (typeof error === "string" ? error : null) || internalError;
   const [visibleError, setVisibleError] = useState(activeError);
 
-  // Auto-dismiss error logic (same as Input)
+  // Auto-dismiss error logic
   useEffect(() => {
     setVisibleError(activeError);
     if (activeError) {
@@ -49,10 +51,8 @@ const FileUpload = ({
       return false;
     }
     // 2. Check Type (Basic check based on accept prop if provided)
-    // Note: robust type checking usually happens on backend, but this catches obvious mismatches
     if (accept !== "*" && !file.type.match(accept.replace(/,/g, "|").replace(/\*/g, ".*"))) {
        // Ideally we parse extensions here too, but for now we rely on the input's native accept
-       // This block creates a soft check for drag-drops which bypass native input filters
     }
     return true;
   };
@@ -104,7 +104,7 @@ const FileUpload = ({
   };
 
   return (
-    <div className="w-full">
+    <div className={cn("w-full", className)}>
       {label && <label className="block mb-1 font-medium text-gray-700">{label}</label>}
 
       <div
@@ -113,18 +113,12 @@ const FileUpload = ({
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
-        className={`
-          relative w-full rounded-lg border-2 border-dashed transition-all duration-200
-          flex flex-col items-center justify-center p-6 text-center
-          ${disabled ? "opacity-50 cursor-not-allowed bg-gray-50 border-gray-200" : "cursor-pointer"}
-          ${
-            visibleError
-              ? "border-red-400 bg-red-50"
-              : dragActive
-              ? "border-primary bg-primary/5 scale-[1.01]"
-              : "border-gray-300 bg-background hover:bg-gray-50 hover:border-gray-400"
-          }
-        `}
+        className={cn(
+          "relative w-full rounded-lg border-2 border-dashed transition-all duration-200 flex flex-col items-center justify-center p-6 text-center",
+          disabled ? "opacity-50 cursor-not-allowed bg-gray-50 border-gray-200" : "cursor-pointer border-gray-300 bg-background hover:bg-gray-50 hover:border-gray-400",
+          dragActive && "border-primary bg-primary/5 scale-[1.01]",
+          visibleError && "border-red-400 bg-red-50"
+        )}
         {...props}
       >
         <input
@@ -158,7 +152,12 @@ const FileUpload = ({
           </div>
         ) : (
           <div className="flex flex-col items-center gap-2">
-            <div className={`p-3 rounded-full ${dragActive ? 'bg-primary/20 text-primary' : 'bg-gray-100 text-gray-500'}`}>
+            <div 
+              className={cn(
+                "p-3 rounded-full",
+                dragActive ? "bg-primary/20 text-primary" : "bg-gray-100 text-gray-500"
+              )}
+            >
               <UploadCloud size={24} />
             </div>
             <div className="space-y-1">

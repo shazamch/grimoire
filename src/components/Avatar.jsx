@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { User } from "lucide-react";
+import { cn } from "../utils/cn";
 
 const Avatar = ({
   src,
@@ -27,12 +28,12 @@ const Avatar = ({
 
   return (
     <div
-      className={`
-        relative inline-flex items-center justify-center overflow-hidden bg-gray-200 text-gray-600 font-bold uppercase shrink-0
-        ${sizeClasses[size] || sizeClasses.md}
-        ${variantClasses[variant] || variantClasses.circle}
-        ${className}
-      `}
+      className={cn(
+        "relative inline-flex items-center justify-center overflow-hidden bg-gray-200 text-gray-600 font-bold uppercase shrink-0",
+        sizeClasses[size] || sizeClasses.md,
+        variantClasses[variant] || variantClasses.circle,
+        className
+      )}
       {...props}
     >
       {src && !imageError ? (
@@ -42,12 +43,10 @@ const Avatar = ({
           onError={() => setImageError(true)}
           className="w-full h-full object-cover"
         />
+      ) : fallback ? (
+        <span>{fallback}</span>
       ) : (
-        fallback ? (
-          <span>{fallback}</span>
-        ) : (
-          <User className="w-[50%] h-[50%]" strokeWidth={2.5} />
-        )
+        <User className="w-[50%] h-[50%]" strokeWidth={2.5} />
       )}
     </div>
   );

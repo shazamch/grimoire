@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { cn } from "../utils/cn";
 
 function Textarea({ 
   label, 
@@ -34,15 +35,14 @@ function Textarea({
         placeholder={placeholder}
         rows={rows}
         disabled={disabled}
-        className={`
-          w-full border rounded-md py-2 px-4 focus:outline-none focus:ring transition-colors resize-y
-          ${disabled ? 'opacity-50 cursor-not-allowed bg-gray-50' : 'bg-background'}
-          ${visibleError 
-            ? 'border-red-500 focus:ring-red-200 bg-red-50' 
-            : 'border-gray-300 hover:border-gray-400 focus:ring-primary'
-          }
-          ${className}
-        `}
+        className={cn(
+          "w-full border rounded-md py-2 px-4 focus:outline-none focus:ring transition-colors resize-y",
+          disabled ? "opacity-50 cursor-not-allowed bg-gray-50" : "bg-background",
+          visibleError 
+            ? "border-red-500 focus:ring-red-200 bg-red-50" 
+            : "border-gray-300 hover:border-gray-400 focus:ring-primary",
+          className
+        )}
         {...props}
       />
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { cn } from "../utils/cn";
 
 function Input({ 
   label, 
@@ -8,6 +9,7 @@ function Input({
   placeholder = "", 
   type = "text", 
   error,
+  className = "",
   ...props 
 }) {
   const errorText = error?.message || (typeof error === 'string' ? error : null);
@@ -40,14 +42,14 @@ function Input({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={`
-            w-full border rounded-md py-2 focus:outline-none focus:ring disabled:opacity-50 transition-colors
-            ${icon ? 'pl-10 pr-4' : 'px-4'} 
-            ${visibleError 
-              ? 'border-red-500 focus:ring-red-200 bg-red-50' 
-              : 'border-gray-300 hover:border-gray-400 focus:ring-primary bg-background'
-            }
-          `}
+          className={cn(
+            "w-full border rounded-md py-2 focus:outline-none focus:ring disabled:opacity-50 transition-colors",
+            icon ? "pl-10 pr-4" : "px-4",
+            visibleError 
+              ? "border-red-500 focus:ring-red-200 bg-red-50" 
+              : "border-gray-300 hover:border-gray-400 focus:ring-primary bg-background",
+            className
+          )}
           {...props}
         />
       </div>
