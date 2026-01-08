@@ -1,9 +1,18 @@
 {
   "name": "@shazam-codes/grimoire",
   "private": false,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
+  "author": "Shazam Razzaq",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shazamch/grimoire"
+  },
+  "bugs": {
+    "url": "https://github.com/shazamch/grimoire/issues"
+  },
+  "homepage": "https://github.com/shazamch/grimoire#readme",
   "main": "./dist/grimoire.umd.cjs",
   "module": "./dist/grimoire.js",
   "exports": {
@@ -16,6 +25,16 @@
   "files": [
     "dist"
   ],
+  "sideEffects": [
+    "./dist/grimoire.css"
+  ],
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "tailwind",
+    "design-system"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -26,10 +45,6 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.562.0",
     "tailwind-merge": "^3.4.0"
-  },
-  "peerDependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -43,5 +58,9 @@
     "globals": "^16.5.0",
     "tailwindcss": "^4.1.18",
     "vite": "^7.2.4"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
