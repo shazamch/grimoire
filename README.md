@@ -42,7 +42,7 @@ yarn add @shazam-codes/grimoire
 
 Grimoire ships with **precompiled Tailwind styles**.
 ```js
-import '@shazam-codes/grimoire/dist/grimoire.css'
+import "@shazam-codes/grimoire/style.css";
 ```
 
 > ⚠️ **Important**
@@ -59,6 +59,7 @@ createRoot(document.getElementById('root')).render(
     theme={{
       primary: '#18333E',
       secondary: '#1987C6',
+      background: "#FFFFFF",
     }}
   >
     <ToastProvider
