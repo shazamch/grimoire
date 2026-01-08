@@ -1,7 +1,7 @@
 {
   "name": "@shazam-codes/grimoire",
   "private": false,
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "MIT",
   "author": "Shazam Razzaq",
   "type": "module",
@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/shazamch/grimoire/issues"
   },
-  "homepage": "https://github.com/shazamch/grimoire#readme",
+  "homepage": "https://grimoire-snippets.vercel.app/",
   "main": "./dist/grimoire.umd.cjs",
   "module": "./dist/grimoire.js",
   "exports": {
