@@ -1,7 +1,7 @@
 {
   "name": "@shazam-codes/grimoire",
   "private": false,
-  "version": "0.0.7",
+  "version": "0.0.8",
   "license": "MIT",
   "author": "Shazam Razzaq",
   "type": "module",

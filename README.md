@@ -281,6 +281,58 @@ Every component:
 ```
 
 ---
+### Sidebar
+
+A responsive, state-persistent navigation sidebar with built-in storage management and multiple themes.
+```jsx
+<Sidebar
+  key={}
+  variant={}      
+  items={}
+  logo={}
+  collapsedLogo={}
+  footer={}
+  items={[
+    { 
+      key: 1, 
+      label: "Dashboard", 
+      icon: , 
+      collapsedIcon: , 
+      onClick: () => navigate('/dashboard') 
+    }
+  ]}
+/>
+```
+
+**Props**
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `Array` | `[]` | Array of nav items `{ key, label, icon, collapsedIcon, onClick }` |
+| `variant` | `string` | `'primary'` | Visual theme: `primary`, `secondary`, `outline`, `ghost` |
+| `collapsible` | `boolean` | `true` | Whether the sidebar can be toggled by the user |
+| `defaultExpanded` | `boolean` | `true` | Initial state (useful if `collapsible` is false) |
+| `storageKey` | `string` | `'sidebar-state'` | Key for `localStorage` to persist collapsed state & active item |
+| `logo` | `ReactNode` | - | Component to show when expanded |
+| `collapsedLogo` | `ReactNode` | - | Component to show when collapsed |
+| `footer` | `ReactNode` | - | Content at the bottom. Collapses into a popover automatically. |
+
+**Variants**
+
+* `primary`: Active item uses solid primary color
+* `secondary`: Active item uses solid secondary color
+* `outline`: Active item has primary border and light background
+* `ghost`: Active item has transparent background and underlined text
+
+**Features**
+
+✔ Automatic state persistence via localStorage
+✔ Smooth collapse/expand animations
+✔ Footer popover when collapsed
+✔ Support for different icons in collapsed/expanded states
+✔ Keyboard accessible
+
+---
 
 ## 📊 Data Display
 
@@ -328,9 +380,22 @@ Every component:
 </Tooltip>
 ```
 
-Positions: `top | bottom | left | right`
+**Props**
 
----
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `content` | `string` | - | The text to display inside the tooltip |
+| `position` | `string` | `'right'` | `top`, `bottom`, `left`, `right` |
+| `variant` | `string` | `'primary'` | `primary`, `secondary`, `dark`, `light`, `outline` |
+| `className` | `string` | `''` | Additional classes for the tooltip bubble |
+
+**Variants**
+
+* `primary`: Uses your theme's primary color
+* `secondary`: Uses your theme's secondary color
+* `dark`: Black background with white text
+* `light`: White background with dark text
+* `outline`: Bordered tooltip with transparent background
 
 ### Spinner
 ```jsx

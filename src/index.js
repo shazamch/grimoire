@@ -29,6 +29,7 @@ export { default as Textarea } from "./components/Textarea";
 export { ToastProvider, useToast } from "./components/ToastProvider";
 export { default as ToggleSwitch } from "./components/ToggleSwitch";
 export { default as Tooltip } from "./components/Tooltip";
+export { default as Sidebar } from "./components/Sidebar";
 
 // Utilities (Optional, in case users want to use your cn tool)
 export { cn } from "./utils/cn";

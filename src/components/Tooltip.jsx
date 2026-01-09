@@ -1,40 +1,93 @@
+import { useState, useRef, useLayoutEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from "../utils/cn";
 
-const Tooltip = ({ content, children, position = "top", className = "" }) => {
+const Tooltip = ({ 
+  content, 
+  children, 
+  position = "right", 
+  variant = "primary", // Added variant prop with default 'primary'
+  className = "" 
+}) => {
   if (!content) return children;
 
-  const positions = {
-    top: "bottom-full left-1/2 -translate-x-1/2 mb-2",
-    bottom: "top-full left-1/2 -translate-x-1/2 mt-2",
-    left: "right-full top-1/2 -translate-y-1/2 mr-2",
-    right: "left-full top-1/2 -translate-y-1/2 ml-2",
+  const [isVisible, setIsVisible] = useState(false);
+  const [coords, setCoords] = useState({ top: 0, left: 0 });
+  const triggerRef = useRef(null);
+  const tooltipRef = useRef(null);
+
+  // Define styling variants
+  const variants = {
+    primary: "bg-primary text-white",
+    secondary: "bg-secondary text-white",
+    dark: "bg-gray-900 text-white",
+    light: "bg-white text-gray-900 border border-gray-200 shadow-md",
+    outline: "bg-white/90 backdrop-blur-sm border border-gray-200 text-gray-800 shadow-sm",
   };
 
-  const arrows = {
-    top: "top-full left-1/2 -translate-x-1/2 border-t-black border-l-transparent border-r-transparent border-b-transparent",
-    bottom: "bottom-full left-1/2 -translate-x-1/2 border-b-black border-l-transparent border-r-transparent border-t-transparent",
-    left: "left-full top-1/2 -translate-y-1/2 border-l-black border-t-transparent border-b-transparent border-r-transparent",
-    right: "right-full top-1/2 -translate-y-1/2 border-r-black border-t-transparent border-b-transparent border-l-transparent",
-  };
+  useLayoutEffect(() => {
+    if (!isVisible || !triggerRef.current || !tooltipRef.current) return;
+
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    const offset = 10;
+    const scrollY = window.scrollY;
+    const scrollX = window.scrollX;
+
+    let top = 0;
+    let left = 0;
+
+    switch (position) {
+      case 'top':
+        top = triggerRect.top + scrollY - tooltipRect.height - offset;
+        left = triggerRect.left + scrollX + (triggerRect.width - tooltipRect.width) / 2;
+        break;
+      case 'bottom':
+        top = triggerRect.bottom + scrollY + offset;
+        left = triggerRect.left + scrollX + (triggerRect.width - tooltipRect.width) / 2;
+        break;
+      case 'left':
+        top = triggerRect.top + scrollY + (triggerRect.height - tooltipRect.height) / 2;
+        left = triggerRect.left + scrollX - tooltipRect.width - offset;
+        break;
+      case 'right':
+      default:
+        top = triggerRect.top + scrollY + (triggerRect.height - tooltipRect.height) / 2;
+        left = triggerRect.right + scrollX + offset;
+        break;
+    }
+
+    setCoords({ top, left });
+  }, [isVisible, position]);
+
+  const tooltipElement = (
+    <div
+      ref={tooltipRef}
+      style={{ top: coords.top, left: coords.left, position: 'absolute' }}
+      className={cn(
+        "z-10000 whitespace-nowrap text-xs px-2.5 py-1.5 rounded-md shadow-lg pointer-events-none transition-opacity duration-150 font-medium",
+        variants[variant] || variants.primary,
+        isVisible ? "opacity-100" : "opacity-0",
+        className
+      )}
+    >
+      {content}
+    </div>
+  );
 
   return (
-    <div className="relative flex items-center group w-fit">
-      {children}
-      
+    <>
       <div
-        className={cn(
-          "absolute whitespace-nowrap bg-black text-white text-xs px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50",
-          positions[position],
-          className
-        )}
+        ref={triggerRef}
+        onMouseEnter={() => setIsVisible(true)}
+        onMouseLeave={() => setIsVisible(false)}
+        className="w-full" // Ensure the wrapper fills the sidebar width
       >
-        {content}
-        
-        <div 
-          className={cn("absolute border-[5px]", arrows[position])} 
-        />
+        {children}
       </div>
-    </div>
+      {/* Render the tooltip outside the main DOM hierarchy */}
+      {createPortal(tooltipElement, document.body)}
+    </>
   );
 };
 
